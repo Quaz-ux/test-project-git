@@ -8,6 +8,7 @@ class TestProjectGit1ApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// Test sprawdza, czy kontekst aplikacji Springa ładuje się poprawnie.
 	}
 
 }
