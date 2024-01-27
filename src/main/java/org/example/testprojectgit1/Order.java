@@ -11,7 +11,7 @@ public class Order {
     private final String deliveryAddress;
     private Status status;
 
-    public Order(String id, Map<String, Integer> products, String deliveryAddress) {
+    public Order(String customerId, Map<String, Integer> products, String deliveryAddress) {
         this.id = UUID.randomUUID().toString();
         this.customerId = customerId;
         this.products = products;

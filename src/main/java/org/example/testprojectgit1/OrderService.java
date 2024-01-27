@@ -25,5 +25,27 @@ public class OrderService {
         }
     }
 
+    public OrderCancellationResponse cancelOrder (String orderId) {
+        Order order = orders.get(orderId);
+        if (order != null) {
+            if (order.getStatus() == Status.NOWE) {
+                order.setStatus(Status.ANULOWANE);
+                return new OrderCancellationResponse(true, "Order cancelled successfully.");
+            } else {
+                return new OrderCancellationResponse(false, "Cannot cancel order W_REALIZACJI or DOSTARCZONE.");
+            }
+        } else {
+            return new OrderCancellationResponse(false, "Order not found.");
+        }
+    }
 
+    public OrderConfirmationDeliveryResponse confirmDelivery(String orderId) {
+        Order order = orders.get(orderId);
+        if (order != null && order.getStatus() == Status.W_REALIZACJI) {
+            order.setStatus(Status.DOSTARCZONE);
+            return new OrderConfirmationDeliveryResponse(true, "Order delivered!");
+        } else {
+            return new OrderConfirmationDeliveryResponse(false, "Cannot confirm delivery for the order :(");
+        }
+    }
 }
