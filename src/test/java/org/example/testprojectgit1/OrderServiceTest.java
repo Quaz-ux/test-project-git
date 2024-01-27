@@ -57,9 +57,21 @@ class OrderServiceTest {
 
     @Test
     void confirmDelivery() {
-        assertNotNull(testOrder);
-        OrderConfirmationDeliveryResponse response = orderService.confirmDelivery(testOrder.getId());
-        assertTrue(response.isSuccess());
-        assertEquals("Order delivered!", response.getMessage());
+        // Tworzymy nowe zamówienie
+        Map<String, Integer> products = new HashMap<>();
+        products.put("ProductC", 1);
+        Order newOrder = orderService.placeOrder("newCustomerId", products, "New Address");
+
+        // Ustawiamy status zamówienia na W_REALIZACJI
+        newOrder.setStatus(Status.W_REALIZACJI);
+
+        // Próba potwierdzenia dostawy
+        OrderConfirmationDeliveryResponse response = orderService.confirmDelivery(newOrder.getId());
+
+        // Sprawdzamy, czy potwierdzenie dostawy zakończyło się sukcesem
+        assertTrue(response.isSuccess(), "Delivery confirmation should be successful.");
+
+        // Sprawdzamy, czy status zamówienia został zmieniony na DOSTARCZONE
+        assertEquals(Status.DOSTARCZONE, newOrder.getStatus(), "Order status should be DOSTARCZONE after delivery confirmation.");
     }
 }
